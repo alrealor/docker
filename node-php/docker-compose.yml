@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+   players:
+      build: ./players
+      ports: 
+         - 5002:80
+      image: alrealor/node-php:players_1
+   
+   site:
+      build: ./site
+      ports:
+         - 5000:80
+      depends_on:
+         - players
+      image: alrealor/node-php:site_1
