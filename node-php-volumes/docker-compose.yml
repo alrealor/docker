@@ -3,9 +3,11 @@ version: '3'
 services:
    players:
       build: ./players
-      ports: 
+      ports:
          - 5002:80
-   
+      volumes:
+         - ./players:/app
+
    site:
       build: ./site
       ports:
