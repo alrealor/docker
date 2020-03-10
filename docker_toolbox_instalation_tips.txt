@@ -1,0 +1,41 @@
+Docker toolbox:
+
+* Getting error at opening Docker toolbox quickstart
+----------------------------------------------------
+  > Running pre-create checks...
+  > Error with pre-create check: "This computer doesn't have VT-X/AMD-v enabled. Enabling it in the BIOS is mandatory"
+  > Looks like something went wrong in step ´Checking if machine default exists´... Press any key to continue...
+
+	- Look for C:\Program Files\Docker Toolbox\start.sh
+	- Replace line below 
+	  fi
+		# "${DOCKER_MACHINE}" create -d virtualbox $PROXY_ENV "${VM}" --> ORIGINAL LINE
+		"${DOCKER_MACHINE}" create -d virtualbox --virtualbox-no-vtx-check $PROXY_ENV "${VM}"
+		
+
+	Where solution comes from: https://youtu.be/ymlWt1MqURY
+	
+	
+* Docker toolbox getting started
+---------------------------------
+
+ * https://docs.docker.com/get-started
+
+	* If you’re using Docker Toolbox then any port you publish with docker run -p will be published on the Toolbox VM’s private IP address. 
+	  $ docker-machine ip ->  it tells you Toolbox VM’s private IP address (It is frequently 192.168.99.100)
+	  
+	- Clone git repository example node-bulletin-board
+		$ git clone https://github.com/dockersamples/node-bulletin-board
+	- Create docker image
+		$ docker image build -t bulletinboard:1.0 .
+	- Create container based on image
+		$ docker container run --publish 8000:8080 --detach --name bb bulletinboard:1.0
+	- Remove docker container
+		$ docker container rm --force bb
+	- Push to GitHub the image created
+		$ docker image tag bulletinboard:1.0 alrealor/bulletinboard:1.0
+		$ docker login -u "alrealor" -p "password"
+		$ docker image push alrealor/bulletinboard:1.0
+		
+		
+ 
